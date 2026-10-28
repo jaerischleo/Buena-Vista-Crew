@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ZOLEO für Buena Vista Crew</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
@@ -108,6 +106,14 @@
   .duo-v { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--gap); max-width: 1100px; }
   .port { position: relative; aspect-ratio: 9/16; overflow: hidden; }
   .port video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* Play-Button als Fallback */
+  .vbtn { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; border: 1px solid rgba(255,255,255,.9); background: rgba(0,0,0,.35); backdrop-filter: blur(4px); cursor: pointer; display: none; align-items: center; justify-content: center; padding: 0; z-index: 3; }
+  .vbtn::before { content: ""; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 19px; border-color: transparent transparent transparent #fff; margin-left: 4px; }
+  .vbtn.show { display: flex; }
+  .vid16:hover .vbtn.playing, .port:hover .vbtn.playing { display: flex; }
+  .vbtn.playing::before { width: 6px; height: 22px; border: 0; border-left: 6px solid #fff; border-right: 6px solid #fff; margin: 0; }
+  .vwrap { position: relative; }
 
   /* Design + Web */
   .two { display: grid; grid-template-columns: 5fr 7fr; gap: var(--pad); align-items: start; }
@@ -337,19 +343,19 @@
     <div class="sec-head"><h2>Film</h2><p class="grey">Reels, Drohnenfilme und Objektfilme. Gedreht am selben Termin wie die Fotos.</p></div>
 
     <div class="project" style="padding-top:0">
-      <figure><div class="vid16"><video muted loop playsinline preload="metadata" poster="assets/film/gardens.jpg" aria-label="The Gardens, Objektfilm"><source src="assets/film/gardens.mp4" type="video/mp4"></video></div><figcaption class="cap">The Gardens, Objektfilm</figcaption></figure>
+      <figure><div class="vid16"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/gardens.jpg" aria-label="The Gardens, Objektfilm"><source src="assets/film/gardens.mp4" type="video/mp4"></video></div><figcaption class="cap">The Gardens, Objektfilm</figcaption></figure>
     </div>
 
     <div class="project">
       <div class="duo-v">
-        <figure><div class="port"><video muted loop playsinline preload="metadata" poster="assets/film/social-1.jpg" aria-label="The Gardens, Reel"><source src="assets/film/social-1.mp4" type="video/mp4"></video></div><figcaption class="cap">The Gardens, Reel</figcaption></figure>
-        <figure><div class="port"><video muted loop playsinline preload="metadata" poster="assets/film/social-2.jpg" aria-label="Haus Zweineun, Reel"><source src="assets/film/social-2.mp4" type="video/mp4"></video></div><figcaption class="cap">Haus Zweineun, Reel</figcaption></figure>
-        <figure><div class="port"><video muted loop playsinline preload="metadata" poster="assets/film/social-3.jpg" aria-label="Elbeglück, Reel"><source src="assets/film/social-3.mp4" type="video/mp4"></video></div><figcaption class="cap">Elbeglück, Reel</figcaption></figure>
+        <figure><div class="port"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/social-1.jpg" aria-label="The Gardens, Reel"><source src="assets/film/social-1.mp4" type="video/mp4"></video></div><figcaption class="cap">The Gardens, Reel</figcaption></figure>
+        <figure><div class="port"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/social-2.jpg" aria-label="Haus Zweineun, Reel"><source src="assets/film/social-2.mp4" type="video/mp4"></video></div><figcaption class="cap">Haus Zweineun, Reel</figcaption></figure>
+        <figure><div class="port"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/social-3.jpg" aria-label="Elbeglück, Reel"><source src="assets/film/social-3.mp4" type="video/mp4"></video></div><figcaption class="cap">Elbeglück, Reel</figcaption></figure>
       </div>
     </div>
 
     <div class="project">
-      <figure><div class="vid16"><video muted loop playsinline preload="metadata" poster="assets/film/composing.jpg" aria-label="Composing, The Gardens"><source src="assets/film/composing.mp4" type="video/mp4"></video></div><figcaption class="cap">Composing: Visualisierung in echter Umgebung, bevor das Haus steht</figcaption></figure>
+      <figure><div class="vid16"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/composing.jpg" aria-label="Composing, The Gardens"><source src="assets/film/composing.mp4" type="video/mp4"></video></div><figcaption class="cap">Composing: Visualisierung in echter Umgebung, bevor das Haus steht</figcaption></figure>
     </div>
   </div>
 </section>
@@ -367,7 +373,7 @@
         <li>Vorlagen für Social Media</li>
         <li>Websites und Landingpages</li>
       </ul>
-      <figure><div class="browser"><div class="bar">merakistudios.gr</div><div class="vid16"><video muted loop playsinline preload="metadata" poster="assets/web/meraki-poster.jpg" aria-label="Website Meraki Studios"><source src="assets/web/meraki.mp4" type="video/mp4"></video></div></div>
+      <figure><div class="browser"><div class="bar">merakistudios.gr</div><div class="vid16"><video autoplay muted loop playsinline preload="metadata" poster="assets/web/meraki-poster.jpg" aria-label="Website Meraki Studios"><source src="assets/web/meraki.mp4" type="video/mp4"></video></div></div>
         <figcaption class="cap">Meraki Studios, Website mit Buchung · <a href="https://merakistudios.gr" target="_blank" rel="noopener">merakistudios.gr</a></figcaption></figure>
     </div>
   </div>
@@ -479,20 +485,50 @@
     }
   }
 
-  // Videos: stumm, im Loop, spielen nur im Bild
+  // Videos: stumm, im Loop, spielen nur im Bild. Fallback: Play-Button, falls ein Browser Autoplay blockt.
   var vids = [].slice.call(document.querySelectorAll('video'));
-  function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-  vids.forEach(function (v) { v.muted = true; v.defaultMuted = true; v.setAttribute('muted', ''); });
+  function btnFor(v) { return v.parentElement.querySelector('.vbtn'); }
+  function setState(v, playing) {
+    var b = btnFor(v); if (!b) return;
+    b.classList.toggle('playing', playing);
+    b.classList.toggle('show', !playing);
+    b.setAttribute('aria-label', playing ? 'Video pausieren' : 'Video abspielen');
+  }
+  function play(v) {
+    v.muted = true;
+    var p = v.play();
+    if (p && p.then) p.then(function () { setState(v, true); }).catch(function () { setState(v, false); });
+  }
+  vids.forEach(function (v) {
+    v.muted = true; v.defaultMuted = true; v.setAttribute('muted', '');
+    var wrap = v.parentElement; wrap.classList.add('vwrap');
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'vbtn'; b.setAttribute('aria-label', 'Video abspielen');
+    wrap.appendChild(b);
+    b.addEventListener('click', function (e) { e.preventDefault(); if (v.paused) { v.dataset.user = '1'; play(v); } else { v.pause(); setState(v, false); } });
+    v.addEventListener('click', function () { if (v.paused) { v.dataset.user = '1'; play(v); } else { v.pause(); setState(v, false); } });
+    v.addEventListener('playing', function () { setState(v, true); });
+    v.addEventListener('pause', function () { if (v.dataset.user || !v.dataset.io) setState(v, false); });
+    v.addEventListener('error', function () { setState(v, false); });
+  });
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) play(e.target); else e.target.pause(); });
-    }, { rootMargin: '240px 0px' });
+      es.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { v.dataset.io = '1'; play(v); }
+        else { v.dataset.io = ''; v.pause(); }
+      });
+    }, { rootMargin: '200px 0px' });
     vids.forEach(function (v) { io.observe(v); });
   } else { vids.forEach(play); }
-  document.addEventListener('touchstart', function once() {
-    vids.forEach(function (v) { if (v.paused) play(v); });
-    document.removeEventListener('touchstart', once);
-  }, { passive: true });
+  // Erste Berührung oder Klick: alles anstoßen, was noch steht (Safari, Stromsparmodus)
+  function kick() {
+    vids.forEach(function (v) { if (v.paused && v.dataset.io) play(v); });
+  }
+  ['touchstart', 'click', 'scroll'].forEach(function (ev) {
+    document.addEventListener(ev, function once() { kick(); document.removeEventListener(ev, once); }, { passive: true });
+  });
+  // Nach kurzer Zeit prüfen: steht ein sichtbares Video noch, Button zeigen
+  setTimeout(function () { vids.forEach(function (v) { if (v.dataset.io && (v.paused || v.currentTime === 0)) setState(v, false); }); }, 2500);
 })();
 </script>
 </body>
