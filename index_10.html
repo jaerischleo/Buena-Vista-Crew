@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZOLEO für Buena Vista Crew</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Gotham Web"; src: url(assets/fonts/gotham-book.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Gotham Web"; src: url(assets/fonts/gotham-medium.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Gotham Web"; src: url(assets/fonts/gotham-bold.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+
+  :root {
+    color-scheme: light;
+    --black: #000; --white: #fff; --grey: #777; --grey-light: #9a9a9a; --line: #e6e6e6;
+    --pad: clamp(20px, 4vw, 64px); --gap: clamp(10px, 1.4vw, 20px); --max: 1480px;
+    --sec: clamp(80px, 10vw, 160px);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--white); scroll-behavior: smooth; scroll-padding-top: 72px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--white); color: var(--black); font-family: "Gotham Web", "Gotham", "Montserrat", "Helvetica Neue", Arial, sans-serif; font-weight: 400; font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  p { margin: 0; }
+  a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  img, video { display: block; width: 100%; height: auto; background: #f1f1f1; }
+  .dark img, .dark video { background: #111; }
+  figure { margin: 0; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+  .grey { color: var(--grey); }
+  h1, h2, h3 { margin: 0; font-weight: 500; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(36px, 5.6vw, 84px); line-height: 1.02; letter-spacing: -0.035em; max-width: 16ch; }
+  h2 { font-size: clamp(30px, 3.8vw, 54px); line-height: 1.04; letter-spacing: -0.03em; }
+  h3 { font-size: 17px; line-height: 1.4; }
+  .label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey); margin: 0 0 12px; font-weight: 500; }
+  .big { font-size: clamp(19px, 1.8vw, 26px); line-height: 1.4; letter-spacing: -0.012em; max-width: 30em; }
+
+  /* Navigation */
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.9); backdrop-filter: blur(10px); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 24px; }
+  .nav .logo img { width: auto; height: 18px; background: none; }
+  .nav ul { display: flex; gap: clamp(14px, 2vw, 30px); list-style: none; margin: 0; padding: 0; font-size: 14px; }
+  .nav ul a { text-decoration: none; }
+  .nav ul a:hover { text-decoration: underline; }
+  .nav .for { font-size: 13px; color: var(--grey); }
+  @media (max-width: 960px) { .nav ul { display: none; } }
+
+  /* Hero */
+  .hero { padding: clamp(40px, 6vw, 88px) 0 clamp(26px, 3.4vw, 44px); }
+  .hero-grid { display: grid; grid-template-columns: 7fr 5fr; gap: var(--pad); align-items: end; }
+  .hero-slides { position: relative; aspect-ratio: 3/2; overflow: hidden; background: #eee; }
+  .hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 900ms ease; }
+  .hero-slides img.on { opacity: 1; }
+  .hero-slides .dots { position: absolute; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; gap: 8px; z-index: 2; }
+  .hero-slides .dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.45); }
+  .hero-slides .dots i.on { background: #fff; }
+
+  /* Logos */
+  .marquee { margin-top: clamp(40px, 5vw, 72px); padding: 10px 0; overflow: hidden; position: relative; }
+  .marquee::before, .marquee::after { content: ""; position: absolute; top: 0; bottom: 0; width: 90px; z-index: 2; pointer-events: none; }
+  .marquee::before { left: 0; background: linear-gradient(90deg, var(--white), rgba(255,255,255,0)); }
+  .marquee::after { right: 0; background: linear-gradient(270deg, var(--white), rgba(255,255,255,0)); }
+  .track { display: flex; align-items: center; gap: clamp(48px, 6vw, 96px); width: max-content; animation: slide 44s linear infinite; }
+  .marquee:hover .track { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) { .track { animation: none; flex-wrap: wrap; width: auto; } }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .track img { width: auto; height: 28px; background: none; flex: none; }
+  .track img.s { height: 22px; }
+  .track span { font-weight: 500; font-size: 19px; letter-spacing: 0.02em; white-space: nowrap; flex: none; }
+
+  /* Sections */
+  section { padding-top: var(--sec); }
+  .sec-head { display: grid; grid-template-columns: 5fr 7fr; gap: var(--pad); align-items: end; margin-bottom: clamp(28px, 3.4vw, 52px); }
+  .sec-head p { max-width: 34em; }
+
+  /* Leistungen */
+  .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--pad); margin-top: clamp(36px, 4.5vw, 64px); }
+  .services a { display: block; text-decoration: none; }
+  .services a:hover h3 { text-decoration: underline; text-underline-offset: 5px; }
+  .services .n { display: block; font-size: 12px; color: var(--grey); margin-bottom: 10px; letter-spacing: .08em; }
+  .services p { margin-top: 4px; color: var(--grey); font-size: 15px; }
+
+  /* Projekte */
+  .project { padding-top: clamp(44px, 5.5vw, 80px); }
+  .sec-head + .project { padding-top: 0; }
+  .project .meta { display: grid; grid-template-columns: 5fr 7fr; gap: var(--pad); margin-bottom: clamp(14px, 1.8vw, 24px); }
+  .project .meta p { color: var(--grey); max-width: 40em; }
+  .row { display: flex; gap: var(--gap); }
+  .row + .row { margin-top: var(--gap); }
+  .row figure { flex: var(--ar) 1 0%; min-width: 0; }
+
+  .feat { display: grid; grid-template-columns: 7fr 5fr; grid-template-rows: 1fr 1fr; gap: var(--gap); }
+  .feat .main { grid-row: 1 / 3; }
+  .feat .side { display: contents; }
+  .feat .side figure { position: relative; min-height: 0; }
+  .feat .side img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* Film */
+  .dark { background: var(--black); color: var(--white); padding-bottom: var(--sec); margin-top: var(--sec); }
+  .dark .grey, .dark .label { color: var(--grey-light); }
+  .vid16 { position: relative; aspect-ratio: 16/9; overflow: hidden; }
+  .vid16 video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cap { margin-top: 10px; font-size: 14px; color: var(--grey-light); }
+  .duo-v { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--gap); max-width: 1100px; }
+  .port { position: relative; aspect-ratio: 9/16; overflow: hidden; }
+  .port video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* Play-Button als Fallback */
+  .vbtn { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; border: 1px solid rgba(255,255,255,.9); background: rgba(0,0,0,.35); backdrop-filter: blur(4px); cursor: pointer; display: none; align-items: center; justify-content: center; padding: 0; z-index: 3; }
+  .vbtn::before { content: ""; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 19px; border-color: transparent transparent transparent #fff; margin-left: 4px; }
+  .vbtn.show { display: flex; }
+  .vid16:hover .vbtn.playing, .port:hover .vbtn.playing { display: flex; }
+  .vbtn.playing::before { width: 6px; height: 22px; border: 0; border-left: 6px solid #fff; border-right: 6px solid #fff; margin: 0; }
+  .vwrap { position: relative; }
+
+  /* Design + Web */
+  .two { display: grid; grid-template-columns: 5fr 7fr; gap: var(--pad); align-items: start; }
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li { padding: 10px 0; }
+  .list span { display: block; color: var(--grey); font-size: 15px; }
+  .browser { border: 1px solid var(--line); }
+  .browser .bar { height: 30px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--grey); border-bottom: 1px solid var(--line); }
+  .two .cap { color: var(--grey); }
+
+  /* Team */
+  .team { display: grid; grid-template-columns: 5fr 7fr; gap: var(--pad); align-items: start; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .duo .pic { aspect-ratio: 4/5; overflow: hidden; }
+  .duo .pic img { width: 100%; height: 100%; object-fit: cover; }
+  .duo figcaption { margin-top: 10px; font-size: 15px; }
+
+  /* Angebot */
+  .offer { display: grid; grid-template-columns: 5fr 7fr; gap: var(--pad); }
+  .offer .code { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 10px; }
+  .offer h3 { font-size: clamp(24px, 2.4vw, 32px); letter-spacing: -0.02em; }
+  .num { font-weight: 500; font-size: clamp(52px, 6vw, 92px); line-height: .95; letter-spacing: -0.04em; margin: 18px 0 6px; }
+  .per { color: var(--grey-light); }
+  .offer .sum { margin-top: 26px; font-size: clamp(19px, 1.8vw, 24px); letter-spacing: -0.012em; }
+  .offer .ps { color: var(--grey-light); margin-top: 6px; font-size: 15px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pad); }
+  .cols h4 { margin: 0 0 10px; font-weight: 500; font-size: 15px; color: var(--grey-light); }
+  .cols ul { list-style: none; margin: 0; padding: 0; font-size: 16px; line-height: 1.5; }
+  .cols li { padding: 7px 0; }
+  .offer-note { margin-top: clamp(36px, 4.5vw, 64px); color: var(--grey-light); max-width: 40em; }
+
+  /* Ablauf */
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--pad); }
+  .steps li { counter-increment: s; }
+  .steps li::before { content: counter(s, decimal-leading-zero); display: block; font-size: 12px; color: var(--grey); margin-bottom: 10px; letter-spacing: .08em; }
+  .steps p { margin-top: 4px; color: var(--grey); font-size: 15px; }
+  .next { margin-top: var(--sec); display: grid; grid-template-columns: 5fr 7fr; gap: var(--pad); align-items: start; }
+  .btn { display: inline-block; margin-top: 22px; padding: 14px 22px; border: 1px solid var(--black); text-decoration: none; font-weight: 500; font-size: 15px; }
+  .btn:hover { background: var(--black); color: var(--white); }
+
+  /* Footer */
+  footer { background: var(--black); color: var(--white); margin-top: var(--sec); padding: clamp(56px, 7vw, 96px) 0 40px; }
+  .wordmark { margin: 0 0 clamp(36px, 5vw, 64px); }
+  .wordmark img { width: min(100%, 720px); height: auto; background: none; }
+  .contact { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--pad); font-size: 15px; }
+  .contact p { margin: 0 0 4px; }
+  .contact a { text-decoration: none; }
+  .contact a:hover { text-decoration: underline; }
+  .fine { margin-top: 40px; font-size: 13px; color: var(--grey-light); }
+
+  @media (max-width: 960px) {
+    body { font-size: 16px; }
+    .hero-grid, .sec-head, .project .meta, .two, .team, .next, .offer, .cols { grid-template-columns: 1fr; gap: 14px; }
+    .hero-grid { gap: 22px; }
+    .services { grid-template-columns: 1fr 1fr; gap: 28px var(--gap); }
+    .row.stack { flex-wrap: wrap; }
+    .row.stack figure { flex: 1 1 calc(50% - var(--gap)); }
+    .row.stack figure.one { flex-basis: 100%; }
+    .steps { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+    .feat { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; }
+    .feat .main { grid-row: auto; grid-column: 1 / 3; }
+    .feat .side figure { position: static; }
+    .feat .side img { position: static; height: auto; }
+    .contact { grid-template-columns: 1fr; gap: 18px; }
+    .track img { height: 22px; } .track img.s { height: 18px; } .track span { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="top" aria-label="Seitennavigation">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="ZOLEO"><img src="assets/logo-black.png" alt="ZOLEO"></a>
+    <ul>
+      <li><a href="#fotografie">Fotografie</a></li>
+      <li><a href="#film">Film</a></li>
+      <li><a href="#design">Design und Web</a></li>
+      <li><a href="#wir">Wir</a></li>
+      <li><a href="#angebot">Angebot</a></li>
+    </ul>
+    <span class="for">für Buena Vista Crew</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <h1>Immobilienfotografie für Buena Vista Crew.</h1>
+      <div>
+        <p class="label">ZOLEO · Oktober 2026</p>
+        <p class="big">Was wir machen, wie es aussieht, was es kostet. Fotografie im Kern, Film, Design und Web dazu. Ab 2027 auf Mallorca.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero-slides" aria-label="Ausgewählte Arbeiten">
+    <img src="assets/hero/hero-1.jpg" alt="Agnesstraße 50, Fassade" class="on">
+    <img src="assets/hero/hero-2.jpg" alt="Agnesstraße 50, Wohnraum" loading="lazy">
+    <img src="assets/hero/hero-3.jpg" alt="Meraki Studios, Kreta" loading="lazy">
+    <img src="assets/hero/hero-4.jpg" alt="Agnesstraße 50, Bad" loading="lazy">
+    <img src="assets/hero/hero-5.jpg" alt="Meraki Studios, Pool" loading="lazy">
+    <img src="assets/hero/hero-6.jpg" alt="Agnesstraße 50, leerer Raum" loading="lazy">
+    <img src="assets/hero/hero-7.jpg" alt="Meraki Studios, Tisch mit Vorhang" loading="lazy">
+    <div class="dots" aria-hidden="true"></div>
+  </div>
+
+  <div class="marquee" aria-label="Kunden, Partner und Veröffentlichungen">
+    <div class="track">
+      <img src="assets/partner/karla-fricke.png" alt="Karla Fricke Immobilien">
+      <span>BAID</span>
+      <img src="assets/partner/baunetz.png" alt="BauNetz">
+      <img src="assets/partner/detail.png" alt="DETAIL" class="s">
+      <img src="assets/partner/archello.png" alt="Archello">
+      <img src="assets/partner/bo-bedre.png" alt="Bo Bedre">
+      <img src="assets/partner/salon.png" alt="Salon">
+      <img src="assets/partner/signature.png" alt="Signature">
+      <img src="assets/partner/cornercard.png" alt="Cornèrcard" class="s">
+      <img src="assets/partner/designarcus.png" alt="designarcus">
+      <img src="assets/partner/good-travel.png" alt="Good Travel">
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <p class="big">Euren Eigentümern versprecht ihr Profi-Fotografie, Drohnenaufnahmen und Editorial Staging. Genau das liefern wir, aus einer Hand und in einer Bildsprache.</p>
+    <nav class="services" aria-label="Leistungen">
+      <a href="#fotografie"><span class="n">01</span><h3>Fotografie</h3><p>Innen, außen, Abendlicht, Drohne</p></a>
+      <a href="#film"><span class="n">02</span><h3>Film</h3><p>Reels, Drohnenfilme, Objektfilme</p></a>
+      <a href="#design"><span class="n">03</span><h3>Design</h3><p>Exposés, Grundrisse, Anzeigen</p></a>
+      <a href="#design"><span class="n">04</span><h3>Web</h3><p>Projektseiten und Landingpages</p></a>
+    </nav>
+  </div>
+</section>
+
+<!-- FOTOGRAFIE -->
+<section id="fotografie">
+  <div class="wrap">
+    <div class="sec-head"><h2>Fotografie</h2><p class="grey">Architektur und Interiors, wie sie sind: ruhiges Licht, gerade Linien, keine Übertreibung.</p></div>
+
+    <div class="project">
+      <div class="meta"><h3>Finca, Mallorca</h3><p>Neubau-Finca, fotografiert für den Eigentümer. Drohne, Außenanlagen, Pool und Interieur an einem Vormittag.</p></div>
+      <div class="row stack">
+        <figure style="--ar:1.778"><img src="assets/foto/mallorca-1.jpg" alt="Finca Mallorca aus der Luft" loading="lazy"></figure>
+        <figure style="--ar:1.5"><img src="assets/foto/mallorca-2.jpg" alt="Finca Mallorca, Sitzecke" loading="lazy"></figure>
+      </div>
+      <div class="row stack">
+        <figure style="--ar:0.8"><img src="assets/foto/mallorca-3.jpg" alt="Finca Mallorca, Pool und Fassade" loading="lazy"></figure>
+        <figure style="--ar:1.5"><img src="assets/foto/mallorca-4.jpg" alt="Finca Mallorca, Wohnraum" loading="lazy"></figure>
+        <figure style="--ar:1.25"><img src="assets/foto/mallorca-5.jpg" alt="Finca Mallorca, Detail" loading="lazy"></figure>
+      </div>
+      <div class="row stack">
+        <figure style="--ar:1.5"><img src="assets/foto/mallorca-6.jpg" alt="Finca Mallorca, Treppe" loading="lazy"></figure>
+        <figure style="--ar:0.8"><img src="assets/foto/mallorca-7.jpg" alt="Finca Mallorca, Regal" loading="lazy"></figure>
+        <figure style="--ar:1.778"><img src="assets/foto/mallorca-8.jpg" alt="Finca Mallorca, Eingang" loading="lazy"></figure>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="meta"><h3>Agnesstraße 50, Hamburg</h3><p>Neubau von BAID Architektur, vermarktet von Karla Fricke Immobilien.</p></div>
+      <div class="row stack">
+        <figure style="--ar:1.333"><img src="assets/foto/agnes-1.jpg" alt="Agnesstraße 50, Fassade" loading="lazy"></figure>
+        <figure style="--ar:1.779"><img src="assets/foto/agnes-drone.jpg" alt="Agnesstraße 50, Dach aus der Luft" loading="lazy"></figure>
+      </div>
+      <div class="row stack">
+        <figure style="--ar:0.8"><img src="assets/foto/agnes-2.jpg" alt="Agnesstraße 50, Eingang" loading="lazy"></figure>
+        <figure style="--ar:1.5"><img src="assets/foto/agnes-eames.jpg" alt="Agnesstraße 50, Wohnraum mit Sessel" loading="lazy"></figure>
+        <figure style="--ar:0.8"><img src="assets/foto/agnes-3.jpg" alt="Agnesstraße 50, Wohnraum" loading="lazy"></figure>
+      </div>
+      <div class="row stack">
+        <figure style="--ar:1.5"><img src="assets/foto/agnes-aerial.jpg" alt="Agnesstraße 50, Winterhude aus der Luft" loading="lazy"></figure>
+        <figure style="--ar:1.5"><img src="assets/foto/agnes-5.jpg" alt="Agnesstraße 50, Dachterrasse" loading="lazy"></figure>
+        <figure style="--ar:1.105"><img src="assets/foto/agnes-6.jpg" alt="Agnesstraße 50, Treppenhaus" loading="lazy"></figure>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="meta"><h3>Meraki Studios, Kreta</h3><p>Ferienstudios von Architekt Sigurd Larsen. Fotografie, Film und Website.</p></div>
+      <div class="row stack">
+        <figure style="--ar:1.5"><img src="assets/foto/meraki-1.jpg" alt="Meraki Studios hinter der Natursteinmauer" loading="lazy"></figure>
+        <figure style="--ar:1.5"><img src="assets/foto/meraki-2.jpg" alt="Meraki Studios, Pool" loading="lazy"></figure>
+      </div>
+      <div class="row stack">
+        <figure style="--ar:1.778"><img src="assets/foto/meraki-4.jpg" alt="Meraki Studios aus der Luft" loading="lazy"></figure>
+        <figure style="--ar:1.5"><img src="assets/foto/meraki-3.jpg" alt="Meraki Studios, Terrasse" loading="lazy"></figure>
+        <figure style="--ar:0.667"><img src="assets/foto/meraki-6.jpg" alt="Meraki Studios, Dusche mit Blick nach draußen" loading="lazy"></figure>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="meta"><h3>The Gardens, Hamburg</h3><p>Neubau in Winterhude. Musterwohnung für die Vermarktung.</p></div>
+      <div class="row stack">
+        <figure style="--ar:1.5"><img src="assets/foto/gardens-1.jpg" alt="The Gardens, Arbeitsplatz" loading="lazy"></figure>
+        <figure style="--ar:1.5"><img src="assets/foto/gardens-2.jpg" alt="The Gardens, Schlafzimmer" loading="lazy"></figure>
+        <figure style="--ar:1.5"><img src="assets/foto/gardens-3.jpg" alt="The Gardens, Flur" loading="lazy"></figure>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="meta"><h3>Hav og Fjell, Norwegen</h3><p>Ferienhäuser am Fjord bei Tromsø.</p></div>
+      <div class="feat">
+        <figure class="main"><img src="assets/foto/fjell-1.jpg" alt="Hav og Fjell, Häuser am Fjord" loading="lazy"></figure>
+        <div class="side">
+          <figure><img src="assets/foto/fjell-2.jpg" alt="Hav og Fjell, Haus am Steg" loading="lazy"></figure>
+          <figure><img src="assets/foto/fjell-3.jpg" alt="Hav og Fjell, Häuser mit Balkonen" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="meta"><h3>Haus Zweineun, Schlei</h3><p>Ferienhaus an der Ostsee.</p></div>
+      <div class="row stack">
+        <figure style="--ar:0.8"><img src="assets/foto/zweineun-1.jpg" alt="Haus Zweineun im Dünengras" loading="lazy"></figure>
+        <figure style="--ar:0.8"><img src="assets/foto/zweineun-2.jpg" alt="Haus Zweineun, Essplatz" loading="lazy"></figure>
+        <figure style="--ar:1.25"><img src="assets/foto/zweineun-3.jpg" alt="Haus Zweineun, Wohnraum mit Kamin" loading="lazy"></figure>
+        <figure style="--ar:0.8"><img src="assets/foto/zweineun-4.jpg" alt="Haus Zweineun, Sessel und Essplatz" loading="lazy"></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILM -->
+<section id="film" class="dark">
+  <div class="wrap">
+    <div class="sec-head"><h2>Film</h2><p class="grey">Reels, Drohnenfilme und Objektfilme. Gedreht am selben Termin wie die Fotos.</p></div>
+
+    <div class="project" style="padding-top:0">
+      <figure><div class="vid16"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/gardens.jpg" aria-label="The Gardens, Objektfilm"><source src="assets/film/gardens.mp4" type="video/mp4"></video></div><figcaption class="cap">The Gardens, Objektfilm</figcaption></figure>
+    </div>
+
+    <div class="project">
+      <div class="duo-v">
+        <figure><div class="port"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/social-1.jpg" aria-label="The Gardens, Reel"><source src="assets/film/social-1.mp4" type="video/mp4"></video></div><figcaption class="cap">The Gardens, Reel</figcaption></figure>
+        <figure><div class="port"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/social-2.jpg" aria-label="Haus Zweineun, Reel"><source src="assets/film/social-2.mp4" type="video/mp4"></video></div><figcaption class="cap">Haus Zweineun, Reel</figcaption></figure>
+        <figure><div class="port"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/social-3.jpg" aria-label="Elbeglück, Reel"><source src="assets/film/social-3.mp4" type="video/mp4"></video></div><figcaption class="cap">Elbeglück, Reel</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="project">
+      <figure><div class="vid16"><video autoplay muted loop playsinline preload="metadata" poster="assets/film/composing.jpg" aria-label="Composing, The Gardens"><source src="assets/film/composing.mp4" type="video/mp4"></video></div><figcaption class="cap">Composing: Visualisierung in echter Umgebung, bevor das Haus steht</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN UND WEB -->
+<section id="design">
+  <div class="wrap">
+    <div class="sec-head"><h2>Design und Web</h2><p class="grey">Alles rund um eure Objekte, in einem Look.</p></div>
+    <div class="two">
+      <ul class="list">
+        <li>Exposés und Objektbroschüren</li>
+        <li>Grundrisse</li>
+        <li>Anzeigen, Print und online</li>
+        <li>Bauschilder und Banner</li>
+        <li>Vorlagen für Social Media</li>
+        <li>Websites und Landingpages</li>
+      </ul>
+      <figure><div class="browser"><div class="bar">merakistudios.gr</div><div class="vid16"><video autoplay muted loop playsinline preload="metadata" poster="assets/web/meraki-poster.jpg" aria-label="Website Meraki Studios"><source src="assets/web/meraki.mp4" type="video/mp4"></video></div></div>
+        <figcaption class="cap">Meraki Studios, Website mit Buchung · <a href="https://merakistudios.gr" target="_blank" rel="noopener">merakistudios.gr</a></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- WIR -->
+<section id="wir">
+  <div class="wrap">
+    <div class="sec-head"><h2>Wer wir sind</h2><p class="grey">ZOLEO ist unser Studio für Fotografie, Film und Design rund um Architektur und Räume.</p></div>
+    <div class="team">
+      <div class="duo">
+        <figure><div class="pic"><img src="assets/team/zoamee.jpg" alt="Zoamee Knoche"></div><figcaption><h3>Zoamee Knoche</h3><p class="grey">Fotografie, Bildbearbeitung, Social Media</p></figcaption></figure>
+        <figure><div class="pic"><img src="assets/team/leo.jpg" alt="Leo Jaerisch"></div><figcaption><h3>Leo Jaerisch</h3><p class="grey">Fotografie, Film, Grafikdesign</p></figcaption></figure>
+      </div>
+      <div>
+        <p class="big">Zu zweit, aus Hamburg. 2027 ziehen wir nach Mallorca.</p>
+        <p class="grey" style="margin-top:14px"><a href="https://www.zoleo-hamburg.com" target="_blank" rel="noopener">zoleo-hamburg.com</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANGEBOT -->
+<section id="angebot" class="dark">
+  <div class="wrap">
+    <div class="sec-head"><h2>Angebot</h2><p class="grey">Ein fester monatlicher Rahmen für die Content-Produktion eurer Objekte.</p></div>
+    <div class="offer">
+      <div>
+        <p class="code">01 — Basic</p>
+        <h3>Content Production</h3>
+        <p class="num">1.800 €</p><p class="per">/ Monat · Alle Preise netto.</p>
+        <p class="sum">4 Immobilien-Shootings pro Monat</p>
+        <p class="ps">450 € pro Shooting</p>
+      </div>
+      <div class="cols">
+        <div>
+          <h4>Pro Shooting inklusive:</h4>
+          <ul>
+            <li>30–40 professionell bearbeitete Fotos</li>
+            <li>2 geschnittene Kurzvideos (Reels)</li>
+            <li>1 Drohnenfilm</li>
+            <li>Bildretusche und Farbkorrektur</li>
+            <li>Videoschnitt und Nachbearbeitung</li>
+            <li>Digitale Bereitstellung aller Inhalte</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Monatlicher Gesamtumfang:</h4>
+          <ul>
+            <li>120–160 bearbeitete Fotos</li>
+            <li>8 Kurzvideos (Reels)</li>
+            <li>4 Drohnenfilme</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="offer-note">Weitere Leistungen wie Film, Design, Web oder Staging besprechen wir mit euch individuell.</p>
+  </div>
+</section>
+
+<!-- ABLAUF -->
+<section id="ablauf">
+  <div class="wrap">
+    <div class="sec-head"><h2>So läuft ein Objekt</h2><p class="grey"></p></div>
+    <ol class="steps">
+      <li><h3>Anfrage</h3><p>Objekt und Wunschtermin per WhatsApp oder Mail.</p></li>
+      <li><h3>Shooting</h3><p>Fotos, Drohne und Reels an einem Termin.</p></li>
+      <li><h3>Vorschau</h3><p>Auswahl innerhalb von 48 Stunden.</p></li>
+      <li><h3>Lieferung</h3><p>In 3 Werktagen, fertig für Website, Portale und Instagram.</p></li>
+    </ol>
+    <div class="next">
+      <h2>Nächster Schritt</h2>
+      <div>
+        <p class="big">Ein Pilotobjekt eurer Wahl. Danach schauen wir gemeinsam, welcher Rahmen passt.</p>
+        <a class="btn" href="mailto:zoleo.travels@gmail.com?subject=Pilotobjekt%20Buena%20Vista%20Crew">Pilotobjekt anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="wordmark"><img src="assets/logo-white.png" alt="ZOLEO"></p>
+    <div class="contact">
+      <div><p>Zoamee Knoche und Leo Jaerisch</p><p class="grey">Hamburg, ab 2027 Mallorca</p></div>
+      <div><p><a href="mailto:zoleo.travels@gmail.com">zoleo.travels@gmail.com</a></p><p><a href="tel:+491795490341">+49 179 5490341</a></p></div>
+      <div><p><a href="https://www.zoleo-hamburg.com" target="_blank" rel="noopener">zoleo-hamburg.com</a></p></div>
+    </div>
+    <p class="fine">Diese Seite ist nur für Buena Vista Crew gedacht und nicht öffentlich gelistet. Alle Bilder und Filme: ZOLEO.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Logos: Inhalt verdoppeln für nahtlosen Lauf
+  var tr = document.querySelector('.track'); if (tr) tr.innerHTML += tr.innerHTML;
+
+  // Hero: langsame Überblendung
+  var hs = document.querySelector('.hero-slides');
+  if (hs) {
+    var imgs = [].slice.call(hs.querySelectorAll('img')), dots = hs.querySelector('.dots'), cur = 0;
+    imgs.forEach(function (_, i) { var d = document.createElement('i'); if (i === 0) d.className = 'on'; dots.appendChild(d); });
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setInterval(function () {
+        imgs[cur].classList.remove('on'); dots.children[cur].classList.remove('on');
+        cur = (cur + 1) % imgs.length;
+        imgs[cur].classList.add('on'); dots.children[cur].classList.add('on');
+      }, 3000);
+    }
+  }
+
+  // Videos: stumm, im Loop, spielen nur im Bild. Fallback: Play-Button, falls ein Browser Autoplay blockt.
+  var vids = [].slice.call(document.querySelectorAll('video'));
+  function btnFor(v) { return v.parentElement.querySelector('.vbtn'); }
+  function setState(v, playing) {
+    var b = btnFor(v); if (!b) return;
+    b.classList.toggle('playing', playing);
+    b.classList.toggle('show', !playing);
+    b.setAttribute('aria-label', playing ? 'Video pausieren' : 'Video abspielen');
+  }
+  function play(v) {
+    v.muted = true;
+    var p = v.play();
+    if (p && p.then) p.then(function () { setState(v, true); }).catch(function () { setState(v, false); });
+  }
+  vids.forEach(function (v) {
+    v.muted = true; v.defaultMuted = true; v.setAttribute('muted', '');
+    var wrap = v.parentElement; wrap.classList.add('vwrap');
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'vbtn'; b.setAttribute('aria-label', 'Video abspielen');
+    wrap.appendChild(b);
+    b.addEventListener('click', function (e) { e.preventDefault(); if (v.paused) { v.dataset.user = '1'; play(v); } else { v.pause(); setState(v, false); } });
+    v.addEventListener('click', function () { if (v.paused) { v.dataset.user = '1'; play(v); } else { v.pause(); setState(v, false); } });
+    v.addEventListener('playing', function () { setState(v, true); });
+    v.addEventListener('pause', function () { if (v.dataset.user || !v.dataset.io) setState(v, false); });
+    v.addEventListener('error', function () { setState(v, false); });
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { v.dataset.io = '1'; play(v); }
+        else { v.dataset.io = ''; v.pause(); }
+      });
+    }, { rootMargin: '200px 0px' });
+    vids.forEach(function (v) { io.observe(v); });
+  } else { vids.forEach(play); }
+  // Erste Berührung oder Klick: alles anstoßen, was noch steht (Safari, Stromsparmodus)
+  function kick() {
+    vids.forEach(function (v) { if (v.paused && v.dataset.io) play(v); });
+  }
+  ['touchstart', 'click', 'scroll'].forEach(function (ev) {
+    document.addEventListener(ev, function once() { kick(); document.removeEventListener(ev, once); }, { passive: true });
+  });
+  // Nach kurzer Zeit prüfen: steht ein sichtbares Video noch, Button zeigen
+  setTimeout(function () { vids.forEach(function (v) { if (v.dataset.io && (v.paused || v.currentTime === 0)) setState(v, false); }); }, 2500);
+})();
+</script>
+</body>
+</html>
